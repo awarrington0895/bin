@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# This script prints out all customized bash commands
+clear
+for item in `ls ~/bin`; do
+	echo -e "$item " >> tmp.txt
+done
+
+sort tmp.txt
+rm tmp.txt
+exit 0

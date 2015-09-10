@@ -1,0 +1,41 @@
+#!/bin/bash
+
+# This script is used to create other scripts for bash
+now=$(date +%m-%d-%Y)
+
+tag0="Author: Alex Warrington"
+tag1="Created: $now"
+tag2="Last Updated: $now "
+ 
+
+
+# Testing number of arguments
+if [[ $# -ne 1 ]]
+	then
+		echo "Incorrect number of arguments"
+		echo "Expected 1; Received $#"
+		exit 1
+fi
+
+filename=$1
+
+
+# Testing existence of other files with the same filename
+if [[ -e $filename  ]]
+	then
+		echo "That file already exists"
+		exit 1
+fi
+
+touch $filename
+
+echo "#!/bin/bash" >> $filename
+echo " " >> $filename
+echo ": '" >> $filename
+echo $tag0 >> $filename
+echo $tag1 >> $filename
+echo $tag2 >> $filename
+echo "'" >> $filename
+
+chmod +x $filename
+

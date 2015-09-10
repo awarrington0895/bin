@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# The purpose of this script is for my own safety
+# It replaces the natural rm function and instead of permanently deleting
+# files, it will send them to a trash folder
+
+# The trash directory can be cleaned using the "clean" command 
+
+mv $1 ~/.trash
+
+
