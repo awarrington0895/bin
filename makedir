@@ -1,5 +1,0 @@
-#!/bin/bash
-
-mkdir ~/user01
-chmod 750  ~/user01
-
