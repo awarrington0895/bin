@@ -38,4 +38,6 @@ echo $tag2 >> $filename
 echo "'" >> $filename
 
 chmod +x $filename
-
+mv $filename "$filename.sh"
+echo 'alias '$filename'="'$filename.sh'"' >> ~/.bashrc
+vim "$filename.sh"
