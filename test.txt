@@ -1,0 +1,3 @@
+cast information for grep
+this contains some numbers like 1 2 3
+even special characters like commas in 1,2,3,4,5, 5

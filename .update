@@ -1,9 +1,0 @@
-#!/bin/bash
- 
-: '
-Author: Alex Warrington
-Created: 10-07-2015
-Last Updated: 10-07-2015
-'
-# This shell will get placed in cron.hourly to update the "Modify Date"
-# in all shell files in the ~/bin directory

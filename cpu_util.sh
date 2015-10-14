@@ -1,4 +1,11 @@
 #!/bin/bash
+ 
+: '
+Author: Alex Warrington
+Created: 2015-10-14 13:52:13
+Modified: 2015-10-14 14:00:38
+Filename: cpu_util.sh
+'
 
 # This script finds the top ten running processes
 # and sends them to a file called top_cpu_out.txt 
