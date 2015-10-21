@@ -3,16 +3,17 @@
 : '
 Author: Alex Warrington
 Created: 2015-10-14 13:52:13
-Modified: 2015-10-14 14:00:38
+Modified: 2015-10-21 13:45:52
 Filename: create-script.sh
 '
+
 
 # This script is used to create other scripts for bash
 now=$(date +%Y-%m-%d\ %H:%M:%S)
 
 tag0="Author: Alex Warrington"
 tag1="Created: $now"
-tag2="Modified: $now "
+tag2="Modified: $now" 
  
 
 

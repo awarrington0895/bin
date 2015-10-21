@@ -3,7 +3,7 @@
 : '
 Author: Alex Warrington
 Created: 2015-10-14 13:52:14
-Modified: 2015-10-14 14:00:38
+Modified: 2015-10-21 16:05:58
 Filename: .update.sh
 '
 
@@ -14,30 +14,29 @@ Filename: .update.sh
 
 # This script assumes that all shell scripts have the file extension '.sh'
 # Bash must be 4.0 or above
+# All shell scripts located in ~/bin
 
 ################# END ##################
 
-# Storing the current modify date written to file and the system's modify date
-sys_mod_date="$(stat clean.sh | grep Modify | sed  "s/Modify: \([0-9]\{4\}-[0-9]\{2\}-[0-9]\{2\} \([0-9]\{2\}:\)\{2\}[0-9]\{2\}\).*/\1/")"
-file_mod_date="$(cat clean.sh | grep Modified | sed "s/Modified: \(.*\)/\1/")"
 
 # Takes all files with a .sh ending and writes it to tmp.txt
-ls -a | sort | grep '.sh' > tmp.txt
+ls -a $HOME/bin | sort | grep '.sh' > tmp.txt
 readarray commands < tmp.txt
 
-# For loop that cycles through all the scripts and checks their modify date and changes them if needed (BROKEN)
+# For loop that cycles through all the scripts and checks their modify date and changes them if needed 
 for file in "${commands[@]}"
 do
+    
+    sys_mod_date="$(date --reference=$HOME/bin/$file +"%Y-%m-%d %H:%M:%S")"
+    file_mod_date="$(cat $HOME/bin/$file | grep "Modified: [0-9]" | sed "s|Modified: \(.*\)|\1|")"
     if [[ $file_mod_date !=  $sys_mod_date ]]; then
-        #sys_mod_date="$(stat $file | grep Modify | sed  "s/Modify: \([0-9]\{4\}-[0-9]\{2\}-[0-9]\{2\} \([0-9]\{2\}:\)\{2\}[0-9]\{2\}\).*/\1/")"
-        #file_mod_date="$(cat $file | grep 'Modified: [0-9]'| sed "s/Modified: \(.*\)/\1/")"
-        #sed -i "s/Modified: $file_mod_date/Modified: $sys_mod_date/" $file
-        sed -i "s&Modified: $(stat $file | grep Modify | sed  "s/Modify: \([0-9]\{4\}-[0-9]\{2\}-[0-9]\{2\} \([0-9]\{2\}:\)\{2\}[0-9]\{2\}\).*/\1/")&Modified: $(stat $file | grep Modify | sed  "s/Modify: \([0-9]\{4\}-[0-9]\{2\}-[0-9]\{2\} \([0-9]\{2\}:\)\{2\}[0-9]\{2\}\).*/\1/")&" $file
+          sed -i "s|\(Modified:\) [0-9].*|\1 $sys_mod_date|" $HOME/bin/$file
+          touch -m -d "$sys_mod_date" $file
     fi
+
 done
 
-echo $file_mod_date
-echo $sys_mod_date
+
 
 \rm tmp.txt
 
