@@ -3,7 +3,7 @@
 : '
 Author: Alex Warrington
 Created: 2015-10-14 13:52:13
-Modified: 2015-11-19 15:20:02
+Modified: 2015-12-03 13:43:02
 Filename: .rem.sh
 '
 
@@ -17,29 +17,48 @@ Filename: .rem.sh
 
 if [ $# == 0 ] 
     then
-        echo "Usage: trash -l | -p | {filename}*"
-    elif [[ "$1" == "-l" ]] 
+        echo "Usage: rm -l | -d | {filename}*"
+    elif [[ "$1" == "-l" || "$1" == "--list" ]]; then
+        if [[ -e $HOME/.trash ]]; then
+            ls $HOME/.trash
+        else
+            echo "Trash is empty"
+        fi 
+    elif [[ "$1" == "-d" ]]
         then
-            if [ -d "$HOME/.trash" ]
-                then
-                    ls $HOME/.trash
-                else
-                    echo "There are no files in trash"
-            fi
-    elif [[ "$1" == "-p" ]]
-        then
-            if [ -d "$HOME/.trash" ] 
+            if [ -e "$HOME/.trash" ] 
                 then
                     rm -r $HOME/.trash
+                    echo "Trash successfully emptied"
                 else
-                    echo "Directory $HOME/.trash doesn't exist"
+                    echo "Trash is already empty"
             fi
+
+    # Shreds all files in the trash then deletes the trash
+    elif [[ "$1" == "-s" || "$1" == "--shred" ]]; then
+        if [[ -e $HOME/.trash ]]; then
+            ls $HOME/.trash > trash_files.tmp
+            readarray files < trash_files.tmp
+
+            for file in "${files[@]}"; do
+                shred $HOME/.trash/$file
+            done
+
+            rm -r $HOME/.trash
+            rm trash_files.tmp
+        else
+            echo "Trash is already empty"
+        fi
+
+        
+
+        
     else
         for i in $@
             do
-                if [ -f "$i" ]
+                if [ -e "$i" ]
                     then        
-                        if [ -d "$HOME/.trash" ]
+                        if [ -e "$HOME/.trash" ]
                             then
                                 mv $i $HOME/.trash
                             else
