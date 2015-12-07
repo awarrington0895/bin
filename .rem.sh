@@ -11,7 +11,7 @@ Filename: .rem.sh
 # It replaces the natural rm function and instead of permanently deleting
 # files, it will send them to a trash folder
 
-# The trash directory can be cleaned using the "clean" command 
+
 
 
 
