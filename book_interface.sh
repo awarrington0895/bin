@@ -33,7 +33,7 @@ printMenu
 printf "#? "
 read input
 
-# Loops through the menu options#{{{
+# Loops through the menu options
 while [[ $input != 6 ]]
 do  
     # Asks user for name address and phone number, then adds it to the phone book#{{{
@@ -106,4 +106,4 @@ do
     fi
     printf "#? "
     read input
-done #}}}
+done 
