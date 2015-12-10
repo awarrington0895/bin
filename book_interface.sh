@@ -7,7 +7,7 @@ Modified: 2015-12-03 13:43:02
 Filename: book_interface.sh.sh
 '
 
-# Prints the interface menu
+# Prints the interface menu#{{{
 function printMenu() {
     echo "What would you like to do?"
     echo "1) Add entry"
@@ -16,7 +16,8 @@ function printMenu() {
     echo "4) Find entry" 
     echo "5) Print the menu"
     echo "6) Exit"
-}
+} #}}}
+
 clear
 
 printf "Starting up the phonebook...\n"
@@ -35,7 +36,7 @@ read input
 # Loops through the menu options
 while [[ $input != 6 ]]
 do  
-    # Asks user for name address and phone number, then adds it to the phone book
+    # Asks user for name address and phone number, then adds it to the phone book#{{{
     if [[ $input == 1 ]]; then
         printf "Enter name: "
         read addName
@@ -43,9 +44,10 @@ do
         read address
         printf "Enter phone number: "
         read phoneNumber
-        printf "$addName:$address:$phoneNumber\n" >> .phonebook.csv
+        printf "$addName:$address:$phoneNumber\n" >> .phonebook.csv#}}}
+    
 
-    # Searches for a specific entry by name and deletes it
+    # Searches for a specific entry by name and deletes it#{{{
     elif [[ $input == 2 ]]; then
         printf "Input the name of the entry you want to delete: "
         read deleteName
@@ -74,30 +76,34 @@ do
             awk --assign name="$deleteName" -F: '$1 !~ name{print}' .phonebook.csv >> .phonebook.csv.swp
             cat .phonebook.csv.swp > .phonebook.csv
             rm .phonebook.csv.swp
-        fi
+        fi#}}}
             
 
-    # Lists the phone book in alphabetical order
+    # Lists the phone book in alphabetical order#{{{
     elif [[ $input == 3 ]]; then
         clear
         awk '{if (NR!=1) {print}}' .phonebook.csv | sort
         echo " "
-        printMenu
+        printMenu#}}}
 
-    # Finds a specific entry by name 
+
+    # Finds a specific entry by name #{{{
     elif [[ $input == 4 ]]; then
         printf "What is the name of the entry you are searching for: "        
         read searchName
         
         # Prints all records that match the search string
-        awk -F: --assign name="$searchName" '$1 ~ name{print}' .phonebook.csv
+        awk -F: --assign name="$searchName" '$1 ~ name{print}' .phonebook.csv#}}}
 
-    # Prints Menu
+
+    # Prints Menu#{{{
     elif [[ $input == 5 ]]; then
         printMenu
+#}}}
+
     else
         echo "Unrecognized menu option"
     fi
     printf "#? "
     read input
-done
+done 
