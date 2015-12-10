@@ -14,28 +14,34 @@ Filename: .rem.sh
 
 
 
-
 if [ $# == 0 ] 
-    then
-        echo "Usage: rm -l | -d | {filename}*"
-    elif [[ "$1" == "-l" || "$1" == "--list" ]]; then
+then
+    echo "Usage: rm -l | -d | {filename}*"
+    exit 0;
+fi
+
+case $1 in
+    -l | --list)
+
         if [[ -e $HOME/.trash ]]; then
             ls $HOME/.trash
         else
             echo "Trash is empty"
         fi 
-    elif [[ "$1" == "-d" ]]
-        then
-            if [ -e "$HOME/.trash" ] 
-                then
-                    rm -r $HOME/.trash
-                    echo "Trash successfully emptied"
-                else
-                    echo "Trash is already empty"
-            fi
+    ;;
+
+    -d | --delete)
+        if [ -e "$HOME/.trash" ] 
+            then
+                rm -f -r $HOME/.trash
+                echo "Trash successfully emptied"
+            else
+                echo "Trash is already empty"
+        fi
+    ;;
 
     # Shreds all files in the trash then deletes the trash
-    elif [[ "$1" == "-s" || "$1" == "--shred" ]]; then
+    -s | --shred)
         if [[ -e $HOME/.trash ]]; then
             ls $HOME/.trash > trash_files.tmp
             readarray files < trash_files.tmp
@@ -44,32 +50,26 @@ if [ $# == 0 ]
                 shred $HOME/.trash/$file
             done
 
-            rm -r $HOME/.trash
+            rm -f -r $HOME/.trash
             rm trash_files.tmp
         else
             echo "Trash is already empty"
         fi
+    ;;
 
-        
-
-        
-    else
-        for i in $@
-            do
-                if [ -e "$i" ]
-                    then        
-                        if [ -e "$HOME/.trash" ]
-                            then
-                                mv $i $HOME/.trash
-                            else
-                                mkdir $HOME/.trash
-                                mv $i $HOME/.trash
-                        fi
-                     else
-                        echo "File $i doesn't exist"
-                fi
+    *)
+        for i in $@; do
+            if [ -e "$i" ]
+                then        
+                    if [ -e "$HOME/.trash" ]
+                        then
+                            mv $i $HOME/.trash
+                        else
+                            mkdir $HOME/.trash
+                            mv $i $HOME/.trash
+                    fi
+                    else
+                    echo "File $i doesn't exist"
+            fi
         done
-                                
-        
-        
-fi
+esac
