@@ -7,6 +7,9 @@ Modified: 2015-12-03 13:43:02
 Filename: book_interface.sh.sh
 '
 
+trap 'rm *.swp 2> /dev/null; rm *.tmp 2> /dev/null; printf "\n"; exit 1' INT
+trap 'rm *.swp 2> /dev/null; rm *.tmp 2> /dev/null; printf "\n"; exit 1' QUIT
+
 # Prints the interface menu#{{{
 function printMenu() {
     echo "What would you like to do?"
@@ -76,7 +79,7 @@ do
             awk --assign name="$deleteName" -F: '$1 !~ name{print}' .phonebook.csv >> .phonebook.csv.swp
             cat .phonebook.csv.swp > .phonebook.csv
             rm .phonebook.csv.swp
-        fi#}}}
+        fi #}}}
             
 
     # Lists the phone book in alphabetical order#{{{
@@ -84,7 +87,8 @@ do
         clear
         awk '{if (NR!=1) {print}}' .phonebook.csv | sort
         echo " "
-        printMenu#}}}
+        printMenu
+        #}}}
 
 
     # Finds a specific entry by name #{{{

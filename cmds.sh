@@ -8,5 +8,7 @@ Filename: cmds.sh
 '
  
 
+# Prints all files with the .sh file ext
 
-clear; ls --color=auto ~/bin | sort
+clear;ls $HOME/bin | grep "\.sh"
+
